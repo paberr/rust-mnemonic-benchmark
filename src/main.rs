@@ -104,8 +104,7 @@ impl Mnemonic {
 	pub fn from_binary(bits: String) -> Self {
 	    let mnemonic = bits.as_bytes()
 	        .chunks(11)
-	        .map(|buf| unsafe { str::from_utf8_unchecked(buf) })
-	        .map(|chunk| Self::WORDLIST[usize::from_str_radix(chunk, 2).unwrap()].to_string())
+	        .map(|buf| Self::WORDLIST[usize::from_str_radix(unsafe { str::from_utf8_unchecked(buf) }, 2).unwrap()].to_string())
 	        .collect::<Vec<String>>()
 	        .join(" ");
 	    Mnemonic(mnemonic)
@@ -123,8 +122,7 @@ impl Mnemonic {
 		let mnemonic = bits.into_iter()
 			.chunks(11)
 			.into_iter()
-			.map(|chunk| chunk.fold(0, |acc, b| (acc << 1) | b as usize))
-			.map(|chunk| Self::WORDLIST[chunk].to_string())
+			.map(|chunk| Self::WORDLIST[chunk.fold(0, |acc, b| (acc << 1) | b as usize)].to_string())
 	        .collect::<Vec<String>>()
 	        .join(" ");
 	    Mnemonic(mnemonic)
