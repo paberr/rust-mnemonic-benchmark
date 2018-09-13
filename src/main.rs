@@ -45,8 +45,6 @@ impl<'a, B: BitBlock> Iterator for ChunkedBitVecIterator<'a, B> {
     }
 }
 
-impl<'a, B: BitBlock> ExactSizeIterator for ChunkedBitVecIterator<'a, B> {}
-
 impl<'a, B: 'a> IntoChunkedBitVecIterator<'a, B> for BitVec<B> {
 	fn chunks(&'a self, chunk_size: usize) -> ChunkedBitVecIterator<'a, B> {
 		ChunkedBitVecIterator {
